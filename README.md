@@ -1,75 +1,53 @@
-# React + TypeScript + Vite
+# ¿Playa hoy?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+App web que te dice si merece la pena ir hoy a una playa de Canarias, con datos reales de olas, viento y temperatura del agua.
 
-Currently, two official plugins are available:
+> En desarrollo. Sigue el progreso en el [tablero del proyecto](https://github.com/users/CarlosMarreroM/projects/4).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Qué hará
 
-## React Compiler
+- Elegir playas de Tenerife (y más adelante del resto de islas).
+- Ver olas, viento, temperatura del agua y del aire.
+- Una nota del día calculada por la app: **hoy sí / regular / hoy no**.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- **React + TypeScript** con **Vite**
+- **Tailwind CSS** para los estilos
+- **axios** para las peticiones a la API
+- **ESLint + Prettier** (con `prettier-plugin-tailwindcss` para ordenar las clases)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Hoja de ruta
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [x] Fase 0: preproyecto
+- [ ] Fase 1: una playa con datos reales
+- [ ] Fase 2: todas las playas y nota del día
+- [ ] Fase 3: detalle, rutas y favoritos
+- [ ] Fase 4: gráficas y caché
+- [ ] Fase 5: mapa
+- [ ] Fase 6: tests y pulido
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Cada fase tiene su issue con las tareas y se sigue en el tablero de GitHub Projects.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Estructura
 
 ```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+src/
+├── data/
+│   └── beaches.ts   # Lista de playas (nombre, isla, latitud, longitud)
+├── App.tsx
+└── main.tsx
 ```
+
+La lista de playas es un archivo de datos propio; la API solo aporta la previsión.
+
+## Arrancar en local
+
+```bash
+npm install
+npm run dev
+```
+
+## Datos
+
+Previsión meteorológica y marina de [Open-Meteo](https://open-meteo.com/), con datos del Deutscher Wetterdienst (DWD).
