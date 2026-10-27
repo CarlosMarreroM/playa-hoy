@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { toBeachConditions } from '../utils/transform'
 
 const COORDS = 'latitude=28.47&longitude=-16.25&timezone=Atlantic/Canary';
 
@@ -28,8 +29,9 @@ export function PruebaFetch() {
           getJSON(URL_MARINA, controller.signal),
           getJSON(URL_TIEMPO, controller.signal),
         ]);
-        console.log('Marina:', marina);
-        console.log('Tiempo:', tiempo);
+        // console.log('Marina:', marina);
+        // console.log('Tiempo:', tiempo);
+        console.log(toBeachConditions(marina, tiempo))
       } catch (error) {
         if (controller.signal.aborted) return; // cancelado a propósito, no es un error
         console.error('Error:', error);
