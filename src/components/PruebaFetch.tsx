@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import { toBeachConditions } from '../utils/transform'
+import { beaches }  from '../data/beaches'
+import axios from 'axios'
+import { getMarine, getWeather } from '../api/openMeteo'
 
 const COORDS = 'latitude=28.47&longitude=-16.25&timezone=Atlantic/Canary';
 
@@ -40,6 +43,28 @@ export function PruebaFetch() {
 
     cargar();
     return () => controller.abort(); // si el componente desaparece, cancela los fetch
+  }, []);
+
+  return <p>Mira la consola</p>;
+}
+
+export function PruebaAxio() {
+  useEffect(() => {
+    async function cargar() {
+      try {
+        const marine = await getMarine(beaches[0].lat, beaches[0].lon)
+        const weather = await getWeather(beaches[0].lat, beaches[0].lon)
+        console.log(toBeachConditions(marine, weather))
+      } catch (error) {
+        if(axios.isAxiosError(error)) {
+          console.error('Error de axios:', error.code, error.response?.status, error.response?.data)
+        }else {
+          console.error('Otro error:', error)
+        }
+        
+      }
+    }
+    cargar()
   }, []);
 
   return <p>Mira la consola</p>;
