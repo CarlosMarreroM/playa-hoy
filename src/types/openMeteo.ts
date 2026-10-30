@@ -1,3 +1,7 @@
+/**
+ * Tipos de las respuestas de la API de Open-Meteo, tal como llegan en el JSON.
+ * Las llamadas que devuelven estos datos están en `src/api/openMeteo.ts`.
+ */
 export interface MarineResponse {
   latitude: number
   longitude: number
@@ -22,4 +26,3 @@ export interface WeatherResponse {
     uv_index: (number | null)[]
   }
 }
-
