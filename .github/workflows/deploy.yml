@@ -1,68 +1,36 @@
-# Workflow que hace el build de la app y la publica en GitHub Pages.
-# Basado en el ejemplo oficial de la documentación de Vite.
-name: Deploy static content to Pages
+name: Deploy to GitHub Pages
 
-# Cuándo se ejecuta
 on:
-  # Cada vez que se hace push a la rama main
   push:
-    branches: ['main']
-
-  # Y también a mano, con el botón "Run workflow" de la pestaña Actions
+    branches: [main]
   workflow_dispatch:
 
-# Permisos que necesita para publicar en GitHub Pages
 permissions:
-  contents: read # leer el código del repo
-  pages: write # publicar en Pages
-  id-token: write # identificarse ante Pages
+  contents: read
+  pages: write
+  id-token: write
 
-# Si haces dos push seguidos, cancela el despliegue anterior y deja solo el último
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: true
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      # La URL de la web publicada, que aparecerá en la pestaña Actions
       url: ${{ steps.deployment.outputs.page_url }}
-
-    # El ordenador que presta GitHub: un Linux
-    runs-on: ubuntu-latest
-
     steps:
-      # 1. Descarga el código del repo en ese ordenador
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      # 2. Instala Node (la última versión LTS) y guarda en caché los paquetes de npm
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: lts/*
-          cache: 'npm'
-
-      # 3. Instala las dependencias exactas de package-lock.json
-      - name: Install dependencies
-        run: npm ci
-
-      # 4. Hace el build: genera la carpeta dist
-      - name: Build
-        run: npm run build
-
-      # 5. Prepara la configuración de GitHub Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
-
-      # 6. Empaqueta la carpeta dist
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
         with:
-          path: './dist'
-
-      # 7. Publica el paquete en GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
+          path: ./dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
