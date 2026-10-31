@@ -4,6 +4,14 @@
  */
 import { BeachCard } from './components/BeachCard'
 import { beaches } from './data/beaches'
+import { calculateRating } from './utils/rating'
+
+console.log('calma', calculateRating({ waveHeight: 0.5, windSpeed: 10, waterTemp: 22 }))
+console.log('límite olas', calculateRating({ waveHeight: 0.8, windSpeed: 10, waterTemp: 22 }))
+console.log('mucho viento', calculateRating({ waveHeight: 0.5, windSpeed: 35, waterTemp: 22 }))
+console.log('mar peligroso', calculateRating({ waveHeight: 2.5, windSpeed: 5, waterTemp: 24 }))
+console.log('falta olas', calculateRating({ waveHeight: null, windSpeed: 10, waterTemp: 22 }))
+console.log('sin datos', calculateRating({ waveHeight: null, windSpeed: null, waterTemp: null }))
 
 function App() {
   return (
