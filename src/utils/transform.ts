@@ -67,6 +67,6 @@ export function toBeachConditions(
     windSpeed: weather.hourly.wind_speed_10m[weatherIndex] ?? null,
     windGusts: weather.hourly.wind_gusts_10m[weatherIndex] ?? null,
     cloudCover: weather.hourly.cloud_cover[weatherIndex] ?? null,
-    uvIndex: weather.hourly.uv_index[weatherIndex] ?? null
+    uvIndex: weather.hourly.uv_index[weatherIndex] ?? null,
   }
 }

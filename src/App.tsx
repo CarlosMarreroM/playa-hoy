@@ -1,9 +1,8 @@
 /**
  * Componente raíz de la app.
- * En la fase 1 muestra una sola playa; en la fase 2 será la lista completa.
+ * Muestra la lista de playas ordenada por la nota del día.
  */
-import { BeachCard } from './components/BeachCard'
-import { beaches } from './data/beaches'
+import { BeachList } from './components/BeachList'
 
 function App() {
   return (
@@ -11,7 +10,7 @@ function App() {
       {/* mx-auto centra, max-w-md limita el ancho en pantallas grandes, p-4 da margen */}
       <main className="mx-auto max-w-md p-4">
         <h1 className="mb-4 text-2xl font-bold">¿Playa hoy?</h1>
-        <BeachCard beach={beaches[0]} />
+        <BeachList />
       </main>
 
       {/* Atribución obligatoria de los datos */}

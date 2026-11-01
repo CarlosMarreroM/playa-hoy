@@ -1,56 +1,31 @@
 /**
  * Tarjeta con las condiciones actuales de una playa.
  *
- * Los datos los consigue el hook `useBeachForecast`; la tarjeta solo se
- * encarga de mostrar uno de los tres estados: cargando, error o los datos.
+ * Solo muestra datos: los recibe ya cargados por props. Quien la usa
+ * (por ejemplo `BeachList`) se encarga de pedirlos y de calcular la nota.
  */
 import type { Beach } from '../data/beaches'
-import { useBeachForecast } from '../hooks/useBeachForecast'
+import type { BeachConditions } from '../types/beach'
+import type { Rating } from '../utils/rating'
 import { formatValue } from '../utils/format'
 import { GlassPanel } from './GlassPanel'
-import { calculateRating } from '../utils/rating'
 import { RATING_STYLES } from '../styles/ratingStyles'
 
 interface BeachCardProps {
   /** Playa de la que se muestran los datos. */
   beach: Beach
+  /** Condiciones actuales de la playa. */
+  conditions: BeachConditions
+  /** Nota del día, o `null` si no se ha podido calcular. */
+  rating: Rating | null
 }
 
-export function BeachCard({ beach }: BeachCardProps) {
-  // El hook se encarga de pedir los datos; la tarjeta solo los muestra
-  const state = useBeachForecast(beach.lat, beach.lon)
-
-  // Los hooks van siempre antes de cualquier return: deben ejecutarse en cada renderizado
-
-  if (state.status === 'loading') {
-    return (
-      <GlassPanel>
-        <p className="text-gray-500">Cargando datos de {beach.name}…</p>
-      </GlassPanel>
-    )
-  }
-
-  if (state.status === 'error') {
-    return (
-      <GlassPanel>
-        <p className="font-semibold">{beach.name}</p>
-        {/* Aquí TypeScript ya sabe que el estado es el de error y tiene `message` */}
-        <p className="mt-2 text-red-600">{state.message}</p>
-      </GlassPanel>
-    )
-  }
-
-  // Los dos if anteriores han descartado 'loading' y 'error': solo queda 'success'
-  const { data } = state
-
+export function BeachCard({ beach, conditions: data, rating }: BeachCardProps) {
   // data.time tiene el formato "2026-10-28T16:00": los caracteres 11 a 15 son la hora
   const hour = data.time.slice(11, 16)
 
-  // La nota se calcula a partir de los datos en cada renderizado: no es estado
-  const rating = calculateRating(data)
   // Si no hay nota (faltan todos los datos), no hay estilo y no se muestra la píldora
   const style = rating ? RATING_STYLES[rating] : null
-  
 
   return (
     <GlassPanel className={style?.shadow}>
@@ -75,8 +50,14 @@ export function BeachCard({ beach }: BeachCardProps) {
         <DataItem label="Olas" value={formatValue(data.waveHeight, 'm')} />
         <DataItem label="Agua" value={formatValue(data.waterTemp, '°C')} />
         <DataItem label="Aire" value={formatValue(data.airTemp, '°C')} />
-        <DataItem label="Viento" value={formatValue(data.windSpeed, 'km/h', 0)} />
-        <DataItem label="Rachas" value={formatValue(data.windGusts, 'km/h', 0)} />
+        <DataItem
+          label="Viento"
+          value={formatValue(data.windSpeed, 'km/h', 0)}
+        />
+        <DataItem
+          label="Rachas"
+          value={formatValue(data.windGusts, 'km/h', 0)}
+        />
         <DataItem label="Nubes" value={formatValue(data.cloudCover, '%', 0)} />
         <DataItem label="Índice UV" value={formatValue(data.uvIndex, '', 0)} />
       </div>

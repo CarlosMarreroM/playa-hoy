@@ -4,6 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-    base: '/playa-hoy/',
-    plugins: [react(), tailwindcss()],
-});
+  base: '/playa-hoy/',
+  plugins: [react(), tailwindcss()],
+})
