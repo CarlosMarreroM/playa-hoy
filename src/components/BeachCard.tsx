@@ -8,6 +8,8 @@ import type { Beach } from '../data/beaches'
 import { useBeachForecast } from '../hooks/useBeachForecast'
 import { formatValue } from '../utils/format'
 import { GlassPanel } from './GlassPanel'
+import { calculateRating } from '../utils/rating'
+import { RATING_STYLES } from '../styles/ratingStyles'
 
 interface BeachCardProps {
   /** Playa de la que se muestran los datos. */
@@ -44,12 +46,30 @@ export function BeachCard({ beach }: BeachCardProps) {
   // data.time tiene el formato "2026-10-28T16:00": los caracteres 11 a 15 son la hora
   const hour = data.time.slice(11, 16)
 
+  // La nota se calcula a partir de los datos en cada renderizado: no es estado
+  const rating = calculateRating(data)
+  // Si no hay nota (faltan todos los datos), no hay estilo y no se muestra la píldora
+  const style = rating ? RATING_STYLES[rating] : null
+  
+
   return (
-    <GlassPanel>
-      <h2 className="text-lg font-semibold">{beach.name}</h2>
-      <p className="text-sm text-gray-500">
-        {beach.island} · datos de las {hour}
-      </p>
+    <GlassPanel className={style?.shadow}>
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h2 className="text-lg font-semibold">{beach.name}</h2>
+          <p className="text-sm text-gray-500">
+            {beach.island} · datos de las {hour}
+          </p>
+        </div>
+
+        {style && (
+          <span
+            className={`shrink-0 rounded-full px-3 py-1 text-sm font-semibold ${style.badge}`}
+          >
+            {style.label}
+          </span>
+        )}
+      </div>
 
       <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
         <DataItem label="Olas" value={formatValue(data.waveHeight, 'm')} />

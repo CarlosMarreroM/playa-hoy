@@ -9,8 +9,14 @@ import type { ReactNode } from 'react'
 interface GlassPanelProps {
   /** Lo que va dentro del panel: lo que se pone entre `<GlassPanel>` y `</GlassPanel>`. */
   children: ReactNode
+  /** Opcional. Clases extra para casos concretos, como el color de la sombra según la nota. */
+  className?: string
 }
 
-export function GlassPanel({ children }: GlassPanelProps) {
-  return <div className="rounded-3xl bg-white p-4 shadow-md">{children}</div>
+export function GlassPanel({ children, className = '' }: GlassPanelProps) {
+  return (
+    <div className={`rounded-3xl bg-white p-4 shadow-md ${className}`}>
+      {children}
+    </div>
+  )
 }
