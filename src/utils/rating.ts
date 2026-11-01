@@ -92,3 +92,19 @@ export function calculateRating(conditions: RatingInput): Rating | null {
     SEVERITY[rating] > SEVERITY[worst] ? rating : worst,
   )
 }
+
+/**
+ * Compara dos notas para ordenar de mejor a peor. Se usa con `sort` o `toSorted`.
+ * Las playas sin nota (`null`) van al final.
+ *
+ * @returns Negativo si `a` va antes, positivo si va después, 0 si son iguales.
+ */
+export function compareRatings(a: Rating | null, b: Rating | null): number {
+  // Sin nota cuenta como la peor posible, para que quede detrás de 'bad'
+  const severityA = a === null ? Infinity : SEVERITY[a]
+  const severityB = b === null ? Infinity : SEVERITY[b]
+
+  // Infinity - Infinity da NaN, así que los empates se resuelven antes de restar
+  if (severityA === severityB) return 0
+  return severityA - severityB
+}

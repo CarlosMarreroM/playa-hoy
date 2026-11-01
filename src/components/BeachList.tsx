@@ -1,12 +1,12 @@
 /**
- * Lista con todas las playas y su nota del día.
+ * Lista con todas las playas, de mejor a peor nota del día.
  *
- * Pide la previsión de todas las playas a la vez con `useBeachesForecast`
- * y calcula la nota de cada una. Las tarjetas solo muestran datos.
+ * Pide la previsión de todas las playas a la vez con `useBeachesForecast`,
+ * calcula la nota de cada una y las ordena. Las tarjetas solo muestran datos.
  */
 import { beaches } from '../data/beaches'
 import { useBeachesForecast } from '../hooks/useBeachesForecast'
-import { calculateRating } from '../utils/rating'
+import { calculateRating, compareRatings } from '../utils/rating'
 import { BeachCard } from './BeachCard'
 import { GlassPanel } from './GlassPanel'
 
@@ -32,14 +32,19 @@ export function BeachList() {
   }
 
   // La nota se calcula a partir de los datos en cada renderizado: no es estado
-  const withRatings = state.data.map((forecast) => ({
-    ...forecast,
-    rating: calculateRating(forecast.conditions),
-  }))
+  const sorted = state.data
+    .map((forecast) => ({
+      ...forecast,
+      rating: calculateRating(forecast.conditions),
+    }))
+    // toSorted devuelve un array nuevo: no modifica el que viene del hook.
+    // Es estable, así que las playas con la misma nota mantienen el orden de la lista
+    .toSorted((a, b) => compareRatings(a.rating, b.rating))
 
   return (
     <ul className="flex flex-col gap-4">
-      {withRatings.map(({ beach, conditions, rating }) => (
+      {sorted.map(({ beach, conditions, rating }) => (
+        // La key es el id de la playa, no la posición: la posición cambia al reordenar
         <li key={beach.id}>
           <BeachCard beach={beach} conditions={conditions} rating={rating} />
         </li>
