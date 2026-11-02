@@ -27,7 +27,9 @@ export function BeachCard({ beach, conditions: data, rating }: BeachCardProps) {
   const style = rating ? RATING_STYLES[rating] : null
 
   return (
-    <GlassPanel className={style?.shadow}>
+    // @container: los datos de dentro se colocan según el ancho de la tarjeta, no el de la pantalla.
+    // h-full: en el grid, todas las tarjetas de una fila miden lo mismo
+    <GlassPanel className={`@container h-full ${style?.shadow ?? ''}`}>
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="text-lg font-semibold">{beach.name}</h2>
@@ -45,7 +47,8 @@ export function BeachCard({ beach, conditions: data, rating }: BeachCardProps) {
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+      {/* 2 columnas de datos; 3 si la tarjeta mide al menos 24rem (@sm) */}
+      <div className="mt-4 grid grid-cols-2 gap-4 @sm:grid-cols-3">
         <DataItem label="Olas" value={formatValue(data.waveHeight, 'm')} />
         <DataItem label="Agua" value={formatValue(data.waterTemp, '°C')} />
         <DataItem label="Aire" value={formatValue(data.airTemp, '°C')} />

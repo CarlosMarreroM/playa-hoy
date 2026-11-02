@@ -92,7 +92,8 @@ function Results({ state, query, island }: ResultsProps) {
           <p className="text-gray-500">No hay playas que coincidan.</p>
         </GlassPanel>
       ) : (
-        <ul className="flex flex-col gap-4">
+        // Se empieza por el móvil: 1 columna, 2 desde tablet (sm) y 3 desde portátil (lg)
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map(({ beach, conditions, rating }) => (
             // La key es el id de la playa, no la posición: la posición cambia al reordenar
             <li key={beach.id}>
