@@ -5,10 +5,12 @@
 /**
  * Formatea un número con su unidad, o devuelve "—" si no hay dato.
  *
+ * Usa el formato de número español: coma decimal.
+ *
  * Ejemplos:
- * - `formatValue(1.234, 'm')` → `"1.2 m"`
+ * - `formatValue(1.234, 'm')` → `"1,2 m"`
  * - `formatValue(18.6, 'km/h', 0)` → `"19 km/h"`
- * - `formatValue(5)` → `"5.0"`
+ * - `formatValue(5)` → `"5,0"`
  * - `formatValue(null, 'm')` → `"—"`
  *
  * @param value El valor que se quiere mostrar. Puede ser `null` si la API no tiene dato.
@@ -23,8 +25,11 @@ export function formatValue(
 ): string {
   if (value === null) return '—'
 
-  // toFixed redondea y convierte el número en texto: 1.234 → "1.2"
-  const number = value.toFixed(decimals)
+  // Redondea a los decimales pedidos y usa coma decimal: 1.234 → "1,2"
+  const number = value.toLocaleString('es-ES', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  })
 
   // Si hay unidad, se añade con un espacio; si no, solo el número
   return unit ? `${number} ${unit}` : number
