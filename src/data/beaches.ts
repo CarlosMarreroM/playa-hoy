@@ -1,94 +1,493 @@
+/**
+ * Lista de playas de la app.
+ *
+ * Las coordenadas salen de OpenStreetMap y están comprobadas con Open-Meteo:
+ * todas tienen datos de olas, agua y tiempo. Están agrupadas por isla.
+ */
+
+/**
+ * Islas de la app, en el orden en que salen en el filtro.
+ * `as const` hace que TypeScript guarde cada nombre exacto y no solo `string`.
+ */
+export const ISLANDS = [
+  'Tenerife',
+  'Gran Canaria',
+  'Lanzarote',
+  'Fuerteventura',
+  'La Palma',
+  'La Gomera',
+  'El Hierro',
+  'La Graciosa',
+] as const
+
+/** Nombre de una isla: 'Tenerife' | 'Gran Canaria' | … Sale de `ISLANDS`. */
+export type Island = (typeof ISLANDS)[number]
+
 export interface Beach {
+  /** Identificador único, en minúsculas y con guiones. Se usa como `key` de React. */
   id: string
   name: string
-  island: string
+  /** Isla de la playa. Al ser `Island` y no `string`, una errata da error al compilar. */
+  island: Island
   lat: number
   lon: number
 }
 
 export const beaches: Beach[] = [
+  // Tenerife
   {
     id: 'las-teresitas',
     name: 'Las Teresitas',
     island: 'Tenerife',
     lat: 28.508,
-    lon: -16.186,
+    lon: -16.187,
+  },
+  {
+    id: 'las-gaviotas',
+    name: 'Playa de Las Gaviotas',
+    island: 'Tenerife',
+    lat: 28.513,
+    lon: -16.176,
   },
   {
     id: 'benijo',
     name: 'Benijo',
     island: 'Tenerife',
     lat: 28.576,
-    lon: -16.187,
+    lon: -16.185,
+  },
+  {
+    id: 'almaciga',
+    name: 'Playa de Almáciga',
+    island: 'Tenerife',
+    lat: 28.572,
+    lon: -16.192,
   },
   {
     id: 'playa-jardin',
     name: 'Playa Jardín',
     island: 'Tenerife',
-    lat: 28.414,
+    lat: 28.413,
     lon: -16.56,
+  },
+  {
+    id: 'martianez',
+    name: 'Playa de Martiánez',
+    island: 'Tenerife',
+    lat: 28.415,
+    lon: -16.54,
   },
   {
     id: 'bollullo',
     name: 'El Bollullo',
     island: 'Tenerife',
-    lat: 28.42,
-    lon: -16.507,
+    lat: 28.419,
+    lon: -16.519,
   },
   {
     id: 'el-socorro',
     name: 'El Socorro',
     island: 'Tenerife',
-    lat: 28.399,
-    lon: -16.624,
+    lat: 28.394,
+    lon: -16.603,
+  },
+  {
+    id: 'san-marcos',
+    name: 'Playa de San Marcos',
+    island: 'Tenerife',
+    lat: 28.378,
+    lon: -16.724,
+  },
+  {
+    id: 'los-gigantes',
+    name: 'Playa de Los Gigantes',
+    island: 'Tenerife',
+    lat: 28.248,
+    lon: -16.84,
   },
   {
     id: 'la-arena',
     name: 'Playa de la Arena',
     island: 'Tenerife',
     lat: 28.23,
-    lon: -16.842,
+    lon: -16.841,
   },
   {
     id: 'san-juan',
     name: 'Playa de San Juan',
     island: 'Tenerife',
     lat: 28.18,
-    lon: -16.814,
+    lon: -16.813,
   },
   {
     id: 'el-duque',
     name: 'Playa del Duque',
     island: 'Tenerife',
-    lat: 28.092,
+    lat: 28.091,
     lon: -16.742,
+  },
+  {
+    id: 'fanabe',
+    name: 'Playa de Fañabé',
+    island: 'Tenerife',
+    lat: 28.085,
+    lon: -16.737,
+  },
+  {
+    id: 'troya',
+    name: 'Playa de Troya',
+    island: 'Tenerife',
+    lat: 28.068,
+    lon: -16.733,
   },
   {
     id: 'las-vistas',
     name: 'Las Vistas',
     island: 'Tenerife',
     lat: 28.051,
-    lon: -16.718,
+    lon: -16.722,
   },
   {
     id: 'el-medano',
     name: 'El Médano',
     island: 'Tenerife',
-    lat: 28.045,
-    lon: -16.537,
+    lat: 28.044,
+    lon: -16.539,
   },
   {
     id: 'la-tejita',
     name: 'La Tejita',
     island: 'Tenerife',
-    lat: 28.033,
-    lon: -16.556,
+    lat: 28.029,
+    lon: -16.551,
   },
   {
     id: 'abades',
     name: 'Abades',
     island: 'Tenerife',
     lat: 28.142,
-    lon: -16.437,
+    lon: -16.44,
+  },
+  {
+    id: 'candelaria',
+    name: 'Playa de Candelaria',
+    island: 'Tenerife',
+    lat: 28.355,
+    lon: -16.37,
+  },
+  // Gran Canaria
+  {
+    id: 'las-canteras',
+    name: 'Las Canteras',
+    island: 'Gran Canaria',
+    lat: 28.14,
+    lon: -15.437,
+  },
+  {
+    id: 'alcaravaneras',
+    name: 'Las Alcaravaneras',
+    island: 'Gran Canaria',
+    lat: 28.131,
+    lon: -15.429,
+  },
+  {
+    id: 'melenara',
+    name: 'Playa de Melenara',
+    island: 'Gran Canaria',
+    lat: 27.987,
+    lon: -15.376,
+  },
+  {
+    id: 'arinaga',
+    name: 'Playa de Arinaga',
+    island: 'Gran Canaria',
+    lat: 27.857,
+    lon: -15.393,
+  },
+  {
+    id: 'san-agustin',
+    name: 'Playa de San Agustín',
+    island: 'Gran Canaria',
+    lat: 27.769,
+    lon: -15.541,
+  },
+  {
+    id: 'playa-del-ingles',
+    name: 'Playa del Inglés',
+    island: 'Gran Canaria',
+    lat: 27.757,
+    lon: -15.57,
+  },
+  {
+    id: 'maspalomas',
+    name: 'Maspalomas',
+    island: 'Gran Canaria',
+    lat: 27.736,
+    lon: -15.585,
+  },
+  {
+    id: 'amadores',
+    name: 'Amadores',
+    island: 'Gran Canaria',
+    lat: 27.79,
+    lon: -15.724,
+  },
+  {
+    id: 'mogan',
+    name: 'Playa de Mogán',
+    island: 'Gran Canaria',
+    lat: 27.818,
+    lon: -15.763,
+  },
+  {
+    id: 'guigui',
+    name: 'Güigüí',
+    island: 'Gran Canaria',
+    lat: 27.95,
+    lon: -15.825,
+  },
+  {
+    id: 'sardina',
+    name: 'Sardina del Norte',
+    island: 'Gran Canaria',
+    lat: 28.152,
+    lon: -15.696,
+  },
+  // Lanzarote
+  {
+    id: 'playa-grande-carmen',
+    name: 'Playa Grande',
+    island: 'Lanzarote',
+    lat: 28.92,
+    lon: -13.663,
+  },
+  {
+    id: 'los-pocillos',
+    name: 'Los Pocillos',
+    island: 'Lanzarote',
+    lat: 28.925,
+    lon: -13.638,
+  },
+  {
+    id: 'playa-honda',
+    name: 'Playa Honda',
+    island: 'Lanzarote',
+    lat: 28.95,
+    lon: -13.59,
+  },
+  {
+    id: 'el-reducto',
+    name: 'El Reducto',
+    island: 'Lanzarote',
+    lat: 28.958,
+    lon: -13.56,
+  },
+  {
+    id: 'las-cucharas',
+    name: 'Las Cucharas',
+    island: 'Lanzarote',
+    lat: 28.999,
+    lon: -13.488,
+  },
+  {
+    id: 'famara',
+    name: 'Famara',
+    island: 'Lanzarote',
+    lat: 29.115,
+    lon: -13.555,
+  },
+  {
+    id: 'playa-blanca',
+    name: 'Playa Blanca',
+    island: 'Lanzarote',
+    lat: 28.862,
+    lon: -13.828,
+  },
+  {
+    id: 'papagayo',
+    name: 'Papagayo',
+    island: 'Lanzarote',
+    lat: 28.842,
+    lon: -13.788,
+  },
+  // Fuerteventura
+  {
+    id: 'corralejo',
+    name: 'Grandes Playas de Corralejo',
+    island: 'Fuerteventura',
+    lat: 28.7,
+    lon: -13.835,
+  },
+  {
+    id: 'el-cotillo',
+    name: 'La Concha (El Cotillo)',
+    island: 'Fuerteventura',
+    lat: 28.693,
+    lon: -14.013,
+  },
+  {
+    id: 'caleta-de-fuste',
+    name: 'Caleta de Fuste',
+    island: 'Fuerteventura',
+    lat: 28.394,
+    lon: -13.859,
+  },
+  {
+    id: 'gran-tarajal',
+    name: 'Gran Tarajal',
+    island: 'Fuerteventura',
+    lat: 28.211,
+    lon: -14.02,
+  },
+  {
+    id: 'la-pared',
+    name: 'La Pared',
+    island: 'Fuerteventura',
+    lat: 28.218,
+    lon: -14.221,
+  },
+  {
+    id: 'sotavento',
+    name: 'Sotavento (Risco del Paso)',
+    island: 'Fuerteventura',
+    lat: 28.113,
+    lon: -14.263,
+  },
+  {
+    id: 'morro-jable',
+    name: 'Playa del Matorral',
+    island: 'Fuerteventura',
+    lat: 28.069,
+    lon: -14.306,
+  },
+  {
+    id: 'cofete',
+    name: 'Cofete',
+    island: 'Fuerteventura',
+    lat: 28.116,
+    lon: -14.374,
+  },
+  // La Palma
+  {
+    id: 'los-cancajos',
+    name: 'Los Cancajos',
+    island: 'La Palma',
+    lat: 28.651,
+    lon: -17.756,
+  },
+  {
+    id: 'nogales',
+    name: 'Playa de Nogales',
+    island: 'La Palma',
+    lat: 28.76,
+    lon: -17.741,
+  },
+  {
+    id: 'puerto-naos',
+    name: 'Puerto Naos',
+    island: 'La Palma',
+    lat: 28.585,
+    lon: -17.91,
+  },
+  {
+    id: 'charco-verde',
+    name: 'Charco Verde',
+    island: 'La Palma',
+    lat: 28.572,
+    lon: -17.899,
+  },
+  {
+    id: 'tazacorte',
+    name: 'Puerto de Tazacorte',
+    island: 'La Palma',
+    lat: 28.641,
+    lon: -17.939,
+  },
+  // La Gomera
+  {
+    id: 'san-sebastian',
+    name: 'Playa de San Sebastián',
+    island: 'La Gomera',
+    lat: 28.09,
+    lon: -17.11,
+  },
+  {
+    id: 'hermigua',
+    name: 'Playa de Hermigua',
+    island: 'La Gomera',
+    lat: 28.172,
+    lon: -17.183,
+  },
+  {
+    id: 'alojera',
+    name: 'Playa de Alojera',
+    island: 'La Gomera',
+    lat: 28.164,
+    lon: -17.334,
+  },
+  {
+    id: 'valle-gran-rey',
+    name: 'Valle Gran Rey',
+    island: 'La Gomera',
+    lat: 28.083,
+    lon: -17.335,
+  },
+  {
+    id: 'playa-santiago',
+    name: 'Playa de Santiago',
+    island: 'La Gomera',
+    lat: 28.03,
+    lon: -17.192,
+  },
+  // El Hierro
+  {
+    id: 'la-restinga',
+    name: 'La Restinga',
+    island: 'El Hierro',
+    lat: 27.641,
+    lon: -17.98,
+  },
+  {
+    id: 'tamaduste',
+    name: 'Tamaduste',
+    island: 'El Hierro',
+    lat: 27.825,
+    lon: -17.895,
+  },
+  {
+    id: 'timijiraque',
+    name: 'Timijiraque',
+    island: 'El Hierro',
+    lat: 27.77,
+    lon: -17.915,
+  },
+  {
+    id: 'el-verodal',
+    name: 'El Verodal',
+    island: 'El Hierro',
+    lat: 27.747,
+    lon: -18.151,
+  },
+  // La Graciosa
+  {
+    id: 'la-francesa',
+    name: 'La Francesa',
+    island: 'La Graciosa',
+    lat: 29.22,
+    lon: -13.525,
+  },
+  {
+    id: 'las-conchas',
+    name: 'Las Conchas',
+    island: 'La Graciosa',
+    lat: 29.276,
+    lon: -13.515,
+  },
+  {
+    id: 'caleta-de-sebo',
+    name: 'Caleta de Sebo',
+    island: 'La Graciosa',
+    lat: 29.23,
+    lon: -13.504,
   },
 ]

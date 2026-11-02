@@ -1,6 +1,6 @@
 /**
  * Componente raíz de la app.
- * Muestra la lista de playas ordenada por la nota del día.
+ * Muestra la lista de playas con buscador, filtro por isla y ordenada por nota.
  */
 import { BeachList } from './components/BeachList'
 
