@@ -4,7 +4,7 @@
  * Es un componente controlado: recibe la isla elegida en `value` y avisa
  * con `onChange` cuando el usuario pulsa otra.
  */
-import { ISLANDS, type Island } from '../data/beaches'
+import { ISLANDS, type Island } from '../data/islands'
 
 /** Isla elegida en el filtro, o `'all'` para ver todas. */
 export type IslandOption = Island | 'all'

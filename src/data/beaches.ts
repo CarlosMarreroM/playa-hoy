@@ -4,34 +4,7 @@
  * Las coordenadas salen de OpenStreetMap y están comprobadas con Open-Meteo:
  * todas tienen datos de olas, agua y tiempo. Están agrupadas por isla.
  */
-
-/**
- * Islas de la app, en el orden en que salen en el filtro.
- * `as const` hace que TypeScript guarde cada nombre exacto y no solo `string`.
- */
-export const ISLANDS = [
-  'Tenerife',
-  'Gran Canaria',
-  'Lanzarote',
-  'Fuerteventura',
-  'La Palma',
-  'La Gomera',
-  'El Hierro',
-  'La Graciosa',
-] as const
-
-/** Nombre de una isla: 'Tenerife' | 'Gran Canaria' | … Sale de `ISLANDS`. */
-export type Island = (typeof ISLANDS)[number]
-
-export interface Beach {
-  /** Identificador único, en minúsculas y con guiones. Se usa como `key` de React. */
-  id: string
-  name: string
-  /** Isla de la playa. Al ser `Island` y no `string`, una errata da error al compilar. */
-  island: Island
-  lat: number
-  lon: number
-}
+import type { Beach } from '../types/beach'
 
 export const beaches: Beach[] = [
   // Tenerife

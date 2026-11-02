@@ -6,8 +6,7 @@
  * la misma configuración (tiempo máximo de espera y zona horaria de Canarias).
  *
  * El resto de la app no usa axios directamente: llama a `getMarineBatch` y
- * `getWeatherBatch` (varios puntos en una petición) o a `getMarine` y
- * `getWeather` (un solo punto).
+ * `getWeatherBatch`, que piden varios puntos en una sola petición.
  *
  * Datos: Open-Meteo (https://open-meteo.com) y DWD (servicio meteorológico alemán).
  */
@@ -137,44 +136,4 @@ export async function getWeatherBatch(
   )
 
   return toResponseList(response.data, points.length)
-}
-
-/**
- * Pide la previsión marina de un solo punto.
- *
- * @param latitude - Latitud del punto, en grados.
- * @param longitude - Longitud del punto, en grados.
- * @param signal - Opcional. Permite cancelar la petición.
- * @returns La respuesta de la API tal cual llega, sin transformar.
- */
-export async function getMarine(
-  latitude: number,
-  longitude: number,
-  signal?: AbortSignal,
-): Promise<MarineResponse> {
-  const [response] = await getMarineBatch(
-    [{ lat: latitude, lon: longitude }],
-    signal,
-  )
-  return response
-}
-
-/**
- * Pide la previsión del tiempo de un solo punto.
- *
- * @param latitude - Latitud del punto, en grados.
- * @param longitude - Longitud del punto, en grados.
- * @param signal - Opcional. Permite cancelar la petición.
- * @returns La respuesta de la API tal cual llega, sin transformar.
- */
-export async function getWeather(
-  latitude: number,
-  longitude: number,
-  signal?: AbortSignal,
-): Promise<WeatherResponse> {
-  const [response] = await getWeatherBatch(
-    [{ lat: latitude, lon: longitude }],
-    signal,
-  )
-  return response
 }

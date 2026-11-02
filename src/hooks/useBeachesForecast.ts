@@ -6,17 +6,10 @@
  */
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import type { Beach } from '../data/beaches'
-import type { BeachConditions } from '../types/beach'
+import type { Beach, BeachForecast } from '../types/beach'
 import { getMarineBatch, getWeatherBatch } from '../api/openMeteo'
 import { toBeachConditions } from '../utils/transform'
 import { getErrorMessage } from '../utils/errors'
-
-/** Una playa junto con sus condiciones actuales. */
-export interface BeachForecast {
-  beach: Beach
-  conditions: BeachConditions
-}
 
 /** Estado de la petición: cargando, error o con los datos de todas las playas. */
 export type BeachesForecastState =

@@ -4,8 +4,7 @@
  * Solo muestra datos: los recibe ya cargados por props. Quien la usa
  * (por ejemplo `BeachList`) se encarga de pedirlos y de calcular la nota.
  */
-import type { Beach } from '../data/beaches'
-import type { BeachConditions } from '../types/beach'
+import type { Beach, BeachConditions } from '../types/beach'
 import type { Rating } from '../utils/rating'
 import { formatValue } from '../utils/format'
 import { GlassPanel } from './GlassPanel'
