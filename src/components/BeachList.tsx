@@ -15,9 +15,20 @@ import {
 import { calculateRating, compareRatings } from '../utils/rating'
 import { matchesQuery } from '../utils/search'
 import { BeachCard } from './BeachCard'
+import { BeachCardSkeleton } from './BeachCardSkeleton'
 import { GlassPanel } from './GlassPanel'
 import { IslandFilter, type IslandOption } from './IslandFilter'
 import { SearchBar } from './SearchBar'
+
+/**
+ * Columnas del grid de tarjetas. Se empieza por el móvil: 1 columna,
+ * 2 desde tablet (sm) y 3 desde portátil (lg). Lo comparten la lista y
+ * las tarjetas de carga para que tengan la misma forma.
+ */
+const GRID_CLASSES = 'grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'
+
+/** Tarjetas provisionales que se muestran mientras cargan los datos. */
+const SKELETON_COUNT = 6
 
 export function BeachList() {
   // `beaches` es una constante del módulo, así que el efecto del hook no se repite
@@ -53,9 +64,15 @@ interface ResultsProps {
 function Results({ state, query, island }: ResultsProps) {
   if (state.status === 'loading') {
     return (
-      <GlassPanel>
-        <p className="text-gray-500">Cargando playas…</p>
-      </GlassPanel>
+      // Tarjetas grises con la misma forma que las reales: la página no salta al cargar
+      <div role="status" className={GRID_CLASSES}>
+        {/* El texto solo lo leen los lectores de pantalla */}
+        <span className="sr-only">Cargando playas…</span>
+        {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+          // Aquí sí vale el índice como key: son fijas y nunca se reordenan
+          <BeachCardSkeleton key={index} />
+        ))}
+      </div>
     )
   }
 
@@ -92,8 +109,7 @@ function Results({ state, query, island }: ResultsProps) {
           <p className="text-gray-500">No hay playas que coincidan.</p>
         </GlassPanel>
       ) : (
-        // Se empieza por el móvil: 1 columna, 2 desde tablet (sm) y 3 desde portátil (lg)
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className={GRID_CLASSES}>
           {visible.map(({ beach, conditions, rating }) => (
             // La key es el id de la playa, no la posición: la posición cambia al reordenar
             <li key={beach.id}>

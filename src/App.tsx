@@ -9,7 +9,13 @@ function App() {
     <div className="min-h-screen bg-sky-50">
       {/* mx-auto centra, max-w-6xl deja sitio para 3 columnas de tarjetas, p-4 da margen */}
       <main className="mx-auto max-w-6xl p-4">
-        <h1 className="mb-4 text-2xl font-bold">¿Playa hoy?</h1>
+        <header className="mb-4">
+          <h1 className="text-2xl font-bold">¿Playa hoy?</h1>
+          <p className="text-gray-600">
+            Olas, viento y temperatura del agua ahora mismo en las playas de
+            Canarias, de mejor a peor para bañarse.
+          </p>
+        </header>
         <BeachList />
       </main>
 
@@ -24,7 +30,16 @@ function App() {
         >
           Open-Meteo
         </a>{' '}
-        y DWD (servicio meteorológico alemán).
+        y DWD (servicio meteorológico alemán). Ubicación de las playas: ©{' '}
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          colaboradores de OpenStreetMap
+        </a>
+        .
       </footer>
     </div>
   )
